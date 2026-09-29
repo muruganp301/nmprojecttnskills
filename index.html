@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Classify School IT Tickets | ServiceNow Automated Incident Management</title>
+  <meta name="description" content="An automated Incident Management & Ticket Classification System for Educational Institutions built on ServiceNow Flow Designer.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="navbar" id="main-nav">
+      <div class="nav-left">
+        <div class="logo-badge">
+          <svg class="sn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <div class="logo-text">
+            <span class="brand-title">EduDesk <span class="badge-sn">ServiceNow</span></span>
+            <span class="brand-sub">Auto Classify School IT Tickets</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" data-tab="portal-tab" id="nav-portal">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Helpdesk Portal
+        </button>
+        <button class="nav-btn" data-tab="kanban-tab" id="nav-kanban">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Kanban Workspace
+        </button>
+        <button class="nav-btn" data-tab="flow-tab" id="nav-flow">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Flow Designer
+        </button>
+        <button class="nav-btn" data-tab="schema-tab" id="nav-schema">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Schema & ACLs
+        </button>
+        <button class="nav-btn" data-tab="guide-tab" id="nav-guide">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Deployment Guide
+        </button>
+      </nav>
+
+      <div class="nav-right">
+        <a href="sys_remote_update_set_7a14952683238710667ea9e0deaad3f2.xml" download class="btn-download-xml" title="Download original ServiceNow Update Set XML">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Update Set XML</span>
+        </a>
+        <div class="status-indicator online">
+          <span class="dot"></span>
+          <span class="status-text">ServiceNow PDI Active</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- ================= TAB 1: HELPDESK PORTAL & TICKET SUBMISSION ================= -->
+      <section id="portal-tab" class="tab-pane active">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="badge-tag">ServiceNow Automated Incident Workflow</div>
+            <h1>Smart School IT Ticket Assistant</h1>
+            <p>Empowering students and faculty with zero-touch automatic ticket classification and intelligent IT group assignment using ServiceNow Flow Designer.</p>
+            <div class="hero-stats">
+              <div class="hero-stat-card">
+                <span class="stat-number" id="total-tickets-count">12</span>
+                <span class="stat-label">Total Tickets</span>
+              </div>
+              <div class="hero-stat-card">
+                <span class="stat-number">98.4%</span>
+                <span class="stat-label">Auto-Classify Rate</span>
+              </div>
+              <div class="hero-stat-card">
+                <span class="stat-number">&lt; 1 sec</span>
+                <span class="stat-label">Flow Execution Time</span>
+              </div>
+              <div class="hero-stat-card">
+                <span class="stat-number">0 Mins</span>
+                <span class="stat-label">Triage Delay</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portal-grid">
+          <!-- Ticket Creator Column -->
+          <div class="card form-card">
+            <div class="card-header">
+              <div class="header-icon-box">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+              <div>
+                <h2>Create Incident Record</h2>
+                <p class="card-subtitle">Target Table: <code>u_incident_workflow</code></p>
+              </div>
+            </div>
+
+            <!-- Quick Preset Buttons -->
+            <div class="presets-section">
+              <span class="preset-label">⚡ Test with Quick Presets:</span>
+              <div class="preset-chips">
+                <button type="button" class="chip-btn" data-preset="wifi">📶 Wi-Fi Issue (Lab 3)</button>
+                <button type="button" class="chip-btn" data-preset="projector">📽️ Projector Blinking</button>
+                <button type="button" class="chip-btn" data-preset="password">🔑 Forgot Portal Password</button>
+                <button type="button" class="chip-btn" data-preset="slow">💻 PC Freezing / Slow</button>
+              </div>
+            </div>
+
+            <form id="incident-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="caller-name">Caller Name <span class="required">*</span></label>
+                  <input type="text" id="caller-name" value="Dr. Arvind Kumar (Staff)" required placeholder="e.g. Ramesh S, Student">
+                </div>
+                <div class="form-group">
+                  <label for="caller-email">Caller Email <span class="required">*</span></label>
+                  <input type="email" id="caller-email" value="arvind.k@school.edu" required placeholder="name@school.edu">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="short-description">Short Description <span class="required">*</span></label>
+                <input type="text" id="short-description" required placeholder="Type issue (e.g. Wi-Fi not working in Chemistry Lab)..." autocomplete="off">
+                <small class="helper-text">💡 <em>ServiceNow Flow analyzes keywords to auto-classify category & subcategory</em></small>
+              </div>
+
+              <div class="form-group">
+                <label for="description">Detailed Description</label>
+                <textarea id="description" rows="3" placeholder="Provide additional details regarding the incident..."></textarea>
+              </div>
+
+              <!-- Live Auto-Classification Preview Bar -->
+              <div class="classification-preview-card" id="preview-box">
+                <div class="preview-header">
+                  <span class="preview-badge-status">
+                    <span class="pulse-indicator"></span> Flow Auto-Detection
+                  </span>
+                  <span class="trigger-rule" id="detected-rule">Waiting for input...</span>
+                </div>
+                <div class="preview-fields">
+                  <div class="preview-item">
+                    <span class="item-label">Predicted Category</span>
+                    <span class="item-value" id="pred-cat"><span class="badge badge-unclassified">Auto-Detecting...</span></span>
+                  </div>
+                  <div class="preview-item">
+                    <span class="item-label">Predicted Subcategory</span>
+                    <span class="item-value" id="pred-subcat">---</span>
+                  </div>
+                  <div class="preview-item">
+                    <span class="item-label">Assigned Group</span>
+                    <span class="item-value" id="pred-group">---</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-primary" id="btn-submit-ticket">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Submit & Execute ServiceNow Flow
+                </button>
+                <button type="reset" class="btn-secondary" id="btn-reset-form">Clear</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Flow Execution Live Simulator & Output Log -->
+          <div class="card flow-exec-card">
+            <div class="card-header">
+              <div class="header-icon-box accent">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div>
+                <h2>Flow Designer Live Execution</h2>
+                <p class="card-subtitle">Flow: <code>Auto Classify School IT Tickets</code></p>
+              </div>
+            </div>
+
+            <!-- Flow Execution Timeline Steps -->
+            <div class="flow-steps-timeline" id="flow-timeline">
+              <div class="timeline-step step-done" id="step-trigger">
+                <div class="step-marker">1</div>
+                <div class="step-info">
+                  <span class="step-title">Trigger: Record Created</span>
+                  <span class="step-desc">Table: <code>u_incident_workflow</code> | Condition: <code>u_category == null</code></span>
+                </div>
+                <span class="step-status">LISTENING</span>
+              </div>
+
+              <div class="timeline-step" id="step-eval">
+                <div class="step-marker">2</div>
+                <div class="step-info">
+                  <span class="step-title">Decision Branch: Evaluate Keywords</span>
+                  <span class="step-desc" id="timeline-condition-text">Parsing short_description for keywords</span>
+                </div>
+                <span class="step-status">WAITING</span>
+              </div>
+
+              <div class="timeline-step" id="step-update">
+                <div class="step-marker">3</div>
+                <div class="step-info">
+                  <span class="step-title">Action: Update Record</span>
+                  <span class="step-desc" id="timeline-update-text">Assign Category, Subcategory & Support Group</span>
+                </div>
+                <span class="step-status">READY</span>
+              </div>
+
+              <div class="timeline-step" id="step-notify">
+                <div class="step-marker">4</div>
+                <div class="step-info">
+                  <span class="step-title">Action: Send Email Notification</span>
+                  <span class="step-desc">Recipient: <code>current.u_reference_1.email</code> (Caller)</span>
+                </div>
+                <span class="step-status">READY</span>
+              </div>
+            </div>
+
+            <!-- Email Notification Live Preview Box -->
+            <div class="email-preview-box" id="email-preview">
+              <div class="email-preview-header">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>Automated Email Notification (sys_email)</span>
+              </div>
+              <div class="email-body">
+                <p><strong>To:</strong> <span id="mail-to">arvind.k@school.edu</span></p>
+                <p><strong>Subject:</strong> <span id="mail-subject">Incident INC0001012 has been auto-classified and logged</span></p>
+                <div class="mail-content" id="mail-content">
+                  Hello Dr. Arvind Kumar,<br><br>
+                  Your School IT incident <strong>INC0001012</strong> has been logged and automatically routed to the <strong>Network Support</strong> team.<br>
+                  • <strong>Category:</strong> Network<br>
+                  • <strong>Subcategory:</strong> Wi-Fi<br>
+                  • <strong>State:</strong> New<br><br>
+                  Our technicians are reviewing the ticket. You can track updates via this portal.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: KANBAN WORKSPACE ================= -->
+      <section id="kanban-tab" class="tab-pane">
+        <div class="workspace-header">
+          <div class="workspace-title-box">
+            <h2>School IT Incident Workspace</h2>
+            <p>Real-time view of <code>u_incident_workflow</code> records. Drag tickets across states or click any ticket to view details.</p>
+          </div>
+          <div class="workspace-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="search-incidents" placeholder="Search Incident #, caller, title...">
+            </div>
+            <select id="filter-category" class="filter-select">
+              <option value="ALL">All Categories</option>
+              <option value="network">Network</option>
+              <option value="hardware">Hardware</option>
+              <option value="access">Access</option>
+              <option value="performance">Performance</option>
+            </select>
+            <button class="btn-refresh" id="btn-export-data">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- Kanban Columns -->
+        <div class="kanban-board">
+          <!-- Column: New -->
+          <div class="kanban-column" data-status="new">
+            <div class="column-header">
+              <span class="column-badge badge-new"></span>
+              <h3>New</h3>
+              <span class="column-counter" id="count-new">0</span>
+            </div>
+            <div class="kanban-cards" id="cards-new"></div>
+          </div>
+
+          <!-- Column: In Progress -->
+          <div class="kanban-column" data-status="in progress">
+            <div class="column-header">
+              <span class="column-badge badge-inprogress"></span>
+              <h3>In Progress</h3>
+              <span class="column-counter" id="count-in-progress">0</span>
+            </div>
+            <div class="kanban-cards" id="cards-inprogress"></div>
+          </div>
+
+          <!-- Column: On Hold -->
+          <div class="kanban-column" data-status="on hold">
+            <div class="column-header">
+              <span class="column-badge badge-onhold"></span>
+              <h3>On Hold</h3>
+              <span class="column-counter" id="count-on-hold">0</span>
+            </div>
+            <div class="kanban-cards" id="cards-onhold"></div>
+          </div>
+
+          <!-- Column: Resolved -->
+          <div class="kanban-column" data-status="resolved">
+            <div class="column-header">
+              <span class="column-badge badge-resolved"></span>
+              <h3>Resolved</h3>
+              <span class="column-counter" id="count-resolved">0</span>
+            </div>
+            <div class="kanban-cards" id="cards-resolved"></div>
+          </div>
+
+          <!-- Column: Closed -->
+          <div class="kanban-column" data-status="closed">
+            <div class="column-header">
+              <span class="column-badge badge-closed"></span>
+              <h3>Closed</h3>
+              <span class="column-counter" id="count-closed">0</span>
+            </div>
+            <div class="kanban-cards" id="cards-closed"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: FLOW DESIGNER VISUALIZER ================= -->
+      <section id="flow-tab" class="tab-pane">
+        <div class="flow-designer-container">
+          <div class="flow-header-bar">
+            <div>
+              <h2>Flow Designer Architecture</h2>
+              <p>Visual representation of <code>sys_hub_flow_ec6b056283ef4710667ea9e0deaad3f1</code></p>
+            </div>
+            <div class="flow-actions">
+              <button class="btn-primary" id="btn-run-simulation">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Simulate Flow Steps
+              </button>
+            </div>
+          </div>
+
+          <!-- Visual Node Graph -->
+          <div class="flow-canvas" id="flow-canvas">
+            <!-- Node: Trigger -->
+            <div class="flow-node node-trigger active-pulse" id="node-trigger">
+              <div class="node-pill">TRIGGER</div>
+              <div class="node-title">Record Created</div>
+              <div class="node-details">
+                <span><strong>Table:</strong> Incident WorkFlow (<code>u_incident_workflow</code>)</span>
+                <span><strong>Condition:</strong> <code>u_category = null</code></span>
+              </div>
+            </div>
+
+            <div class="flow-arrow">
+              <div class="arrow-line"></div>
+              <div class="arrow-head">▼</div>
+            </div>
+
+            <!-- Decision Switch Branch -->
+            <div class="flow-decision-box" id="node-decision">
+              <div class="node-pill pill-logic">LOGIC : IF / ELSE IF EVALUATION</div>
+              <div class="decision-branches">
+                
+                <div class="branch-card" id="branch-network">
+                  <div class="branch-cond">
+                    <span class="badge badge-network">Condition 1</span>
+                    <p>Short Description contains <code>"wifi"</code> OR <code>"network"</code></p>
+                  </div>
+                  <div class="branch-action">
+                    <span class="action-tag">Update Record</span>
+                    <p>• Category: <strong>Network</strong></p>
+                    <p>• Subcategory: <strong>Wi-Fi</strong></p>
+                    <p>• Assigned Group: <strong>Network Support</strong></p>
+                  </div>
+                </div>
+
+                <div class="branch-card" id="branch-hardware">
+                  <div class="branch-cond">
+                    <span class="badge badge-hardware">Condition 2</span>
+                    <p>Short Description contains <code>"projector"</code> OR <code>"hardware"</code></p>
+                  </div>
+                  <div class="branch-action">
+                    <span class="action-tag">Update Record</span>
+                    <p>• Category: <strong>Hardware</strong></p>
+                    <p>• Subcategory: <strong>Projector</strong></p>
+                    <p>• Assigned Group: <strong>Hardware Support</strong></p>
+                  </div>
+                </div>
+
+                <div class="branch-card" id="branch-access">
+                  <div class="branch-cond">
+                    <span class="badge badge-access">Condition 3</span>
+                    <p>Short Description contains <code>"password"</code> OR <code>"login"</code></p>
+                  </div>
+                  <div class="branch-action">
+                    <span class="action-tag">Update Record</span>
+                    <p>• Category: <strong>Access</strong></p>
+                    <p>• Subcategory: <strong>Forgot Password</strong></p>
+                    <p>• Assigned Group: <strong>Service Desk</strong></p>
+                  </div>
+                </div>
+
+                <div class="branch-card" id="branch-performance">
+                  <div class="branch-cond">
+                    <span class="badge badge-performance">Condition 4</span>
+                    <p>Short Description contains <code>"slow"</code> OR <code>"computer"</code></p>
+                  </div>
+                  <div class="branch-action">
+                    <span class="action-tag">Update Record</span>
+                    <p>• Category: <strong>Performance</strong></p>
+                    <p>• Subcategory: <strong>Slow Computer</strong></p>
+                    <p>• Assigned Group: <strong>IT Systems</strong></p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="flow-arrow">
+              <div class="arrow-line"></div>
+              <div class="arrow-head">▼</div>
+            </div>
+
+            <!-- Node: Action Send Email -->
+            <div class="flow-node node-action" id="node-email-action">
+              <div class="node-pill pill-action">ACTION : SEND EMAIL</div>
+              <div class="node-title">Notify Ticket Caller</div>
+              <div class="node-details">
+                <span><strong>To:</strong> <code>Trigger - Record Created ➔ Caller ➔ Email</code></span>
+                <span><strong>Subject:</strong> <code>Incident ${u_number} has been logged and categorized</code></span>
+                <span><strong>Body:</strong> Contains incident details, SLA target, and direct portal link</span>
+              </div>
+            </div>
+
+            <div class="flow-arrow">
+              <div class="arrow-line"></div>
+              <div class="arrow-head">▼</div>
+            </div>
+
+            <!-- Node: End -->
+            <div class="flow-node node-end" id="node-end">
+              <div class="node-pill pill-end">END</div>
+              <div class="node-title">Flow Execution Complete</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: SCHEMA & ACLs ================= -->
+      <section id="schema-tab" class="tab-pane">
+        <div class="schema-container">
+          <div class="schema-header">
+            <h2>Data Dictionary & Security Architecture</h2>
+            <p>Extracted directly from the ServiceNow Update Set XML file <code>sys_remote_update_set_7a14952683238710667ea9e0deaad3f2.xml</code></p>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header-title">
+              <span class="badge-table">Table Definition</span>
+              <h3>Incident WorkFlow (<code>u_incident_workflow</code>)</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Column Label</th>
+                    <th>Element Name</th>
+                    <th>Type</th>
+                    <th>Reference / Choices</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Number</strong></td>
+                    <td><code>u_number</code></td>
+                    <td><span class="badge-type">String (40)</span></td>
+                    <td>Auto-number prefix: <code>INC</code></td>
+                    <td>Unique identifier generated automatically for each incident</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Caller</strong></td>
+                    <td><code>u_reference_1</code></td>
+                    <td><span class="badge-type">Reference</span></td>
+                    <td>Table: <code>sys_user</code></td>
+                    <td>Student, teacher, or staff member who reported the issue</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Short Description</strong></td>
+                    <td><code>u_short_description</code></td>
+                    <td><span class="badge-type">String (100)</span></td>
+                    <td>---</td>
+                    <td>Primary summary parsed by Flow Designer for auto-classification</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Description</strong></td>
+                    <td><code>u_description</code></td>
+                    <td><span class="badge-type">String (4000)</span></td>
+                    <td>---</td>
+                    <td>Detailed description of the issue or error encountered</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Category</strong></td>
+                    <td><code>u_category</code></td>
+                    <td><span class="badge-type">Choice</span></td>
+                    <td><code>network</code>, <code>hardware</code>, <code>access</code>, <code>performance</code></td>
+                    <td>Auto-classified category determining support team allocation</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Subcategory</strong></td>
+                    <td><code>u_subcategory</code></td>
+                    <td><span class="badge-type">Choice</span></td>
+                    <td><code>wi-fi</code>, <code>projector</code>, <code>forgot password</code>, <code>slow computer</code></td>
+                    <td>Granular classification for root-cause analytics and SOP routing</td>
+                  </tr>
+                  <tr>
+                    <td><strong>State</strong></td>
+                    <td><code>u_state</code></td>
+                    <td><span class="badge-type">Choice</span></td>
+                    <td><code>new</code>, <code>in progress</code>, <code>on hold</code>, <code>resolved</code>, <code>closed</code></td>
+                    <td>Lifecycle status of the incident workflow</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Assigned Group</strong></td>
+                    <td><code>u_assigned_group</code></td>
+                    <td><span class="badge-type">Reference</span></td>
+                    <td>Table: <code>sys_user_group</code></td>
+                    <td>Target team (Network Support, Hardware Support, Service Desk, etc.)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Assigned To</strong></td>
+                    <td><code>u_assigned_to</code></td>
+                    <td><span class="badge-type">Reference</span></td>
+                    <td>Table: <code>sys_user</code></td>
+                    <td>Specific technician handling the resolution</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Roles and Security Section -->
+          <div class="security-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="header-icon-box">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <h3>Access Control Lists (ACLs)</h3>
+                  <p class="card-subtitle">Role-Based Security Model</p>
+                </div>
+              </div>
+              <ul class="spec-list">
+                <li><strong>Role Defined:</strong> <code>u_incident_workflow_user</code></li>
+                <li><strong>Create ACL:</strong> Users with role can log new tickets via self-service portal</li>
+                <li><strong>Read ACL:</strong> Callers can view their own logged tickets; IT staff can view all assigned tickets</li>
+                <li><strong>Write ACL:</strong> Assigned technicians and admins can modify state, subcategory, and work notes</li>
+                <li><strong>Delete ACL:</strong> Restricted strictly to ServiceNow System Administrators</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="header-icon-box accent">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div>
+                  <h3>Password Reset Process</h3>
+                  <p class="card-subtitle">Self-Service Credential Integration</p>
+                </div>
+              </div>
+              <ul class="spec-list">
+                <li><strong>Process Name:</strong> Service-Desk Password Reset for Local ServiceNow</li>
+                <li><strong>Process ID:</strong> <code>pwd_process_4ff0c881bf220100710071a7bf0739fa</code></li>
+                <li><strong>Unlock Account:</strong> Enabled for student & faculty credentials</li>
+                <li><strong>Auto Generated Password:</strong> Enabled (Secure auto-generation upon verification)</li>
+                <li><strong>Credential Store:</strong> Local ServiceNow Instance (standalone store)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: DEPLOYMENT GUIDE & SUBMISSION ================= -->
+      <section id="guide-tab" class="tab-pane">
+        <div class="guide-container">
+          <div class="guide-header">
+            <h2>Project Submission & ServiceNow Setup Guide</h2>
+            <p>Everything you need for Naan Mudhalvan Milestone evaluation, GitHub repository submission, and live demo verification.</p>
+          </div>
+
+          <div class="guide-grid">
+            <!-- Box 1: How to submit Github Link -->
+            <div class="card guide-card">
+              <div class="step-badge">SUBMISSION 1</div>
+              <h3>How to Submit "Add Github Link"</h3>
+              <p>Upload this entire project repository to GitHub in 3 simple steps:</p>
+              <ol class="guide-steps">
+                <li>Open your repository: <a href="https://github.com/kanagarajperumal0-sys/tnskill" target="_blank" rel="noopener">github.com/kanagarajperumal0-sys/tnskill</a>.</li>
+                <li>Click <strong>"Upload files"</strong> button on GitHub, and drag-and-drop all files from this project folder (including <code>index.html</code>, <code>style.css</code>, <code>app.js</code>, <code>README.md</code>, <code>project_reports/</code>, <code>docs/</code>, and the XML file).</li>
+                <li>Click <strong>Commit changes</strong>, copy your GitHub URL: <code>https://github.com/kanagarajperumal0-sys/tnskill</code> and paste it into the <strong>"Add Github Link"</strong> box on the Naan Mudhalvan portal!</li>
+              </ol>
+            </div>
+
+            <!-- Box 2: How to submit Demo Link -->
+            <div class="card guide-card">
+              <div class="step-badge accent-badge">SUBMISSION 2</div>
+              <h3>How to Submit "Add Demo Link"</h3>
+              <p>You have 3 easy options to provide a working Demo Link:</p>
+              <div class="demo-options">
+                <div class="demo-opt">
+                  <strong>Option A: GitHub Pages (Recommended - 100% Free)</strong>
+                  <p>In your GitHub repository, go to <strong>Settings ➔ Pages</strong>. Under Branch, select <strong>main</strong> and folder <strong>/(root)</strong>, then click <strong>Save</strong>. In 1 minute, you will get your live link: <code>https://kanagarajperumal0-sys.github.io/tnskill/</code></p>
+                </div>
+                <div class="demo-opt">
+                  <strong>Option B: Netlify / Vercel (Drag & Drop)</strong>
+                  <p>Go to <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a>, drag this project folder into the box, and instantly get a live URL (e.g. <code>https://school-it-tickets.netlify.app</code>).</p>
+                </div>
+                <div class="demo-opt">
+                  <strong>Option C: ServiceNow PDI Link or Video Demo</strong>
+                  <p>Provide your ServiceNow Developer Instance URL (e.g. <code>https://devXXXXX.service-now.com</code>) or record a 2-minute video walkthrough of this demo and paste the Google Drive link.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box 3: Importing Update Set into ServiceNow -->
+            <div class="card guide-card full-width">
+              <div class="step-badge">SERVICENOW SETUP</div>
+              <h3>How to Import the XML Update Set into ServiceNow PDI</h3>
+              <div class="sn-steps-grid">
+                <div class="sn-step">
+                  <span class="sn-num">1</span>
+                  <h4>Log into ServiceNow</h4>
+                  <p>Open your ServiceNow Personal Developer Instance (PDI) at <a href="https://developer.servicenow.com" target="_blank" rel="noopener">developer.servicenow.com</a>.</p>
+                </div>
+                <div class="sn-step">
+                  <span class="sn-num">2</span>
+                  <h4>Navigate to Retrieved Update Sets</h4>
+                  <p>In the Filter Navigator, search for <code>Retrieved Update Sets</code> (under System Update Sets).</p>
+                </div>
+                <div class="sn-step">
+                  <span class="sn-num">3</span>
+                  <h4>Import XML</h4>
+                  <p>Click on the related link <strong>"Import Update Set from XML"</strong> at the bottom of the list. Choose <code>sys_remote_update_set_7a14952683238710667ea9e0deaad3f2.xml</code> and click <strong>Upload</strong>.</p>
+                </div>
+                <div class="sn-step">
+                  <span class="sn-num">4</span>
+                  <h4>Preview & Commit</h4>
+                  <p>Open the imported update set <strong>"Project Update Set"</strong>, click <strong>Preview Update Set</strong>, ensure 0 errors, and click <strong>Commit Update Set</strong>. All tables and flows are now active!</p>
+            <!-- Box 4: Download Milestone PDF Reports -->
+            <div class="card guide-card full-width" style="margin-top: 10px;">
+              <div class="step-badge" style="background: rgba(139, 92, 246, 0.15); color: #c084fc; border-color: rgba(139, 92, 246, 0.3);">PROJECT DOCUMENTATION PDFS</div>
+              <h3>Download Project PDF Reports for Submission</h3>
+              <p>Generated according to SmartBridge / Naan Mudhalvan Milestone evaluation guidelines:</p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 10px;">
+                <a href="project_reports/Milestone_1_Requirement_Analysis_and_Plan.pdf" download class="btn-refresh" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 12px;">
+                  📄 Milestone 1 PDF (SRS & Plan)
+                </a>
+                <a href="project_reports/Milestone_2_System_Design_and_Flow_Implementation.pdf" download class="btn-refresh" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 12px;">
+                  📄 Milestone 2 PDF (Design & Flow)
+                </a>
+                <a href="project_reports/Milestone_3_Testing_and_Deployment_Guide.pdf" download class="btn-refresh" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 12px;">
+                  📄 Milestone 3 PDF (Test & Deploy)
+                </a>
+                <a href="project_reports/Final_Project_Report_Auto_Classify_School_IT_Tickets.pdf" download class="btn-refresh" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 12px; background: rgba(37, 99, 235, 0.2); color: #93c5fd; border-color: rgba(37, 99, 235, 0.4);">
+                  📑 Complete Final Report PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Incident Detail Modal -->
+    <div class="modal-backdrop" id="ticket-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-box">
+            <span class="badge" id="modal-badge-cat">Network</span>
+            <h3 id="modal-title">Incident Details</h3>
+          </div>
+          <button class="modal-close" id="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body-content">
+          <!-- Dynamic details injected by JS -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="btn-modal-close-footer">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+      <div class="toast-icon">✓</div>
+      <div class="toast-message" id="toast-text">Ticket created successfully!</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p><strong>EduDesk</strong> • Automated Incident Management for Educational Institutions • Built for ServiceNow Project Submission (Naan Mudhalvan)</p>
+        <p class="footer-sub">Update Set: <code>sys_remote_update_set_7a14952683238710667ea9e0deaad3f2.xml</code> • Flow: <code>Auto Classify School IT Tickets</code></p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
